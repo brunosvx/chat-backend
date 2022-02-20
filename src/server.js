@@ -2,11 +2,13 @@ import { Server } from 'socket.io';
 
 import message from './events/message.js';
 
-const io = new Server(3333, {
+const io = new Server(process.env.PORT || 3333, {
     cors: {
         origin: '*'
     }
 })
+
+console.log('--------- PORTA:', process.env.PORT || 3333);
 
 
 const events = {
