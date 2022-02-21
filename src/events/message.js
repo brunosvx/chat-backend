@@ -9,7 +9,12 @@ export default function message(data, socket) {
 
     if(!validateUuid(id) || !validateMessage(data)) return;
 
-    socket.broadcast.emit("message", { name: name.trim(), text: text.trim(), id });
+    const message = { id, name: name.trim(), text: text.trim() }
+
+    lastMessages.push(message);
+    lastMessages.splice(0, lastMessages.length - 100);
+
+    socket.broadcast.emit("message", message);
     
 }
 
