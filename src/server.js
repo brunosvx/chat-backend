@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 
-import message from './events/message.js';
+import message, { lastMessages } from './events/message.js';
 
 const io = new Server(process.env.PORT || 3333, {
     cors: {
@@ -8,15 +8,14 @@ const io = new Server(process.env.PORT || 3333, {
     }
 })
 
-console.log('--------- PORTA:', process.env.PORT || 3333);
-
 
 const events = {
     message
 }
 
 io.on('connection', (socket) => {
-    console.log('socket connected ->', socket.id);
+
+    socket.emit('lastMessages', lastMessages)
 
     socket.onAny((eventName, data) => {
         events[eventName]?.(data, socket);
